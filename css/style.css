@@ -1,0 +1,131 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+body{
+  background-color: #f6f6f6;
+}
+img{
+  width: 100%; /*Responsive images*/
+}
+.container{
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+a{
+  cursor: pointer;
+}
+.hidden{
+  display: none !important;
+}
+/*Loading........*/
+.loader {
+  border: 10px solid #d5d3d3;
+  border-radius: 50%;
+  border-top: 10px solid black;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+/*END Loading........*/
+/*Nav........*/
+.mainNav{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #141414;
+  color: white;
+  padding: 15px 0;
+  margin-bottom: 20px;
+}
+/* End Nav........*/
+/*Modal.......*/
+.modal{
+  background: rgba(0,0,0,0.5);
+  position: fixed;
+  right: 0;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.modalContent{
+  max-width: 80vw;
+}
+/*End Modal.......*/
+/*Pictures List.......*/
+#mainContent{
+  display: flex;
+  justify-content: space-around;
+  flex-direction: row-reverse;
+}
+.imgContainer{
+  background-color: white;
+  border: 1px solid rgba(34,36,38,.15);
+  box-shadow: 0 1px 2px 0 rgba(34,36,38,.15);
+  border-radius: .28571429rem;
+  padding: 5px;
+  margin: 8px;
+  min-width: 200px;
+  min-height: 100px;
+}
+.pagination{
+  display: inline-flex;
+  align-items: center;
+  max-width: 200px;
+  background: #fff;
+  font-weight: 400;
+  border: 1px solid rgba(34,36,38,.15);
+  box-shadow: 0 1px 2px 0 rgba(34,36,38,.15);
+  border-radius: .28571429rem;
+  height: 35px;
+  margin: 0 8px;
+}
+.pagination .pageNum:hover, .pagination .active{
+  background-color: #e7e7e7;
+}
+.pagination .pageNum{
+  height: 35px;
+  display: flex;
+  align-items: center;
+  width: 25px;
+  justify-content: center;
+  font-weight: 600;
+  color: #6a6a6a;
+}
+/*End Pictures List.......*/
+@media (max-width : 680px) {
+  .imgContainer{
+    min-width: 100px;
+    min-height: 50px;
+  }
+  #mainContent{
+    flex-wrap: wrap;
+  }
+  .picsCol{
+    width: 50%
+  }
+}
+@media (max-width : 480px) {
+  #mainContent{
+    flex-wrap: wrap;
+  }
+  .picsCol{
+    width: 100%;
+  }
+}
