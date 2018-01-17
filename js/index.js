@@ -21,6 +21,7 @@ function fetchPics(searchWord) {
         response.json().then(function(data) {
           pagination.classList.remove('hidden');
           state.photos = data.photos.photo;
+          state.currentPage = 1;
           console.log(state.photos);
           mainContent.innerHTML = generatePicturesContainer(state.photos.slice(0, 10));
           renderPagination();
