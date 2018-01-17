@@ -22,7 +22,6 @@ function fetchPics(searchWord) {
           pagination.classList.remove('hidden');
           state.photos = data.photos.photo;
           state.currentPage = 1;
-          console.log(state.photos);
           mainContent.innerHTML = generatePicturesContainer(state.photos.slice(0, 10));
           renderPagination();
         });
@@ -64,9 +63,7 @@ function generatePicturesContainer(photosArr) {
     `
 }
 function goToPage(num) {
-  console.log(state.photos.length);
-  if (num >0 && (num)*10 <= state.photos.length+1) {
-    console.log('ww');
+  if (num >0 && (num) <= Math.ceil(state.photos.length/10)) {
     state.currentPage = num;
     mainContent.innerHTML = generatePicturesContainer(state.photos.slice((num-1)*10, num*10));
     renderPagination();
@@ -75,7 +72,10 @@ function goToPage(num) {
 function renderPagination() {
   const { currentPage, photos } = state;
   const numberOfPages = Math.ceil(photos.length/10);
-  let content = `<a onclick="goToPage(${currentPage-1})" class="pageNum prev"><</a>`;
+  let content = `
+    <a onclick="goToPage(1)" class="pageNum prev"><<</a>
+    <a onclick="goToPage(${currentPage-1})" class="pageNum prev"><</a>
+    `;
   if (numberOfPages > 3) {
     if (currentPage ==1)
       content +=`
@@ -100,7 +100,10 @@ function renderPagination() {
       content += `<a onclick="goToPage(${i})" class="pageNum ${currentPage === i? 'active':''}">${i}</a>`
     }
   }
-  content +=`<a onclick="goToPage(${currentPage+1})" class="pageNum next">></a>`;
+  content +=`
+    <a onclick="goToPage(${currentPage+1})" class="pageNum next">></a>
+    <a onclick="goToPage(${numberOfPages})" class="pageNum next">>></a>
+    `;
   pagination.innerHTML = content;
 }
 
