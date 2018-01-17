@@ -19,6 +19,13 @@ a{
 .hidden{
   display: none !important;
 }
+/*Search Form*/
+.search input{
+  border: 1px solid #d1d1d1;
+  padding: 5px;
+  border-radius: 5px;
+  margin-top: 5px;
+}
 /*Loading........*/
 .loader {
   border: 10px solid #d5d3d3;

@@ -1,29 +1,41 @@
 const mainContent = document.querySelector('#mainContent');
 const pagination = document.querySelector('.pagination');
 const modal = document.querySelector('.modal');
+const searchForm = document.querySelector('.search');
 const state = { //page global state
   currentPage:1,
   photos:[]
 };
-fetch('https://api.flickr.com/services/rest/?method=flickr.photos.search&tags=nature&api_key=c48c0eee6d23486475bd28a5cf3d1e43&format=json&nojsoncallback=?')
-  .then(
-    function(response) {
-      if (response.status !== 200) {
-        mainContent.innerHTML= 'Looks like there was a problem. Status Code: ' + response.status;
-        return;
-      }
+fetchPics('nature');
+function fetchPics(searchWord) {
+  const link = `https://api.flickr.com/services/rest/?method=flickr.photos.search&tags=${searchWord}&api_key=c48c0eee6d23486475bd28a5cf3d1e43&format=json&nojsoncallback=?`;
+  mainContent.innerHTML = `<div class="loader"></div>`;
+  fetch(link)
+    .then(
+      function(response) {
+        if (response.status !== 200) {
+          mainContent.innerHTML= 'Looks like there was a problem. Status Code: ' + response.status;
+          return;
+        }
 
-      response.json().then(function(data) {
-        pagination.classList.remove('hidden');
-        state.photos = data.photos.photo;
-        mainContent.innerHTML = generatePicturesContainer(state.photos.slice(0, 10));
-        renderPagination();
-      });
-    }
-  )
-  .catch(function(err) {
-    mainContent.innerHTML = 'Fetch Error :-S' + err.message;
-  });
+        response.json().then(function(data) {
+          pagination.classList.remove('hidden');
+          state.photos = data.photos.photo;
+          console.log(state.photos);
+          mainContent.innerHTML = generatePicturesContainer(state.photos.slice(0, 10));
+          renderPagination();
+        });
+      }
+    )
+    .catch(function(err) {
+      mainContent.innerHTML = 'Fetch Error :-S' + err.message;
+    });
+}
+/*Search listener*/
+searchForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  fetchPics(e.target.search.value);
+})
 /*Helper Functions*/
 function generatePicturesList(photosArr){
   return photosArr.reduce((acc, photo) =>
@@ -51,7 +63,9 @@ function generatePicturesContainer(photosArr) {
     `
 }
 function goToPage(num) {
-  if (num >0 && (num)*10 < state.photos.length+1) {
+  console.log(state.photos.length);
+  if (num >0 && (num)*10 <= state.photos.length+1) {
+    console.log('ww');
     state.currentPage = num;
     mainContent.innerHTML = generatePicturesContainer(state.photos.slice((num-1)*10, num*10));
     renderPagination();
@@ -88,6 +102,7 @@ function renderPagination() {
   content +=`<a onclick="goToPage(${currentPage+1})" class="pageNum next">></a>`;
   pagination.innerHTML = content;
 }
+
 function viewModal(link) {
   document.querySelector('.modal .modalContent').innerHTML = `<img src="${link}" alt="Flickr image">`;
   modal.classList.remove('hidden');
